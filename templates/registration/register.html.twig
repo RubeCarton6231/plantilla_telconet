@@ -32,12 +32,19 @@
             </div>  
             <div class="form-outline form-white c">
                 <label class="form-label" style="width: 100%;" for="typePassword">Nombre: </label>
-                {{ form_widget(registrationForm.nombre) }}
-                                          
+                {{ form_widget(registrationForm.nombre) }}                                          
+            </div>  
+            <div class="form-outline form-white c">
+                <label class="form-label" style="width: 100%;" for="typePassword">Apellio: </label>
+                {{ form_widget(registrationForm.apellido) }}                                          
+            </div>  
+            <div class="form-outline form-white c">
+                <label class="form-label" style="width: 100%;" for="typePassword">Cedula: </label>
+                {{ form_widget(registrationForm.cedula) }}                                          
             </div>  
             <div class="form-outline form-white c" style="margin-top: 10px;">
                 <label class="form-label" for="typePassword">Rol: </label>
-                    {{ form_widget(registrationForm.rol) }}                        
+                    {{ form_widget(registrationForm.roles) }}                        
             </div>                                    
             <div>
                 {{ form_row(registrationForm.agreeTerms) }}

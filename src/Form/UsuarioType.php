@@ -6,7 +6,7 @@ use App\Entity\Usuario;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class UsuarioType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -14,13 +14,19 @@ class UsuarioType extends AbstractType
         $builder
             ->add('email')
             ->add('nombre')
-            ->add('rol')
+            ->add('apellido')
+            ->add('cedula')
+            ->add('roles', ChoiceType::class, [
+                'mapped' => false,
+                'choices' => [
+                    'ROLE_SECRETARIA' => 'ROLE_SECRETARIA',
+                    'ROLE_REPARTIDOR' => 'ROLE_REPARTIDOR',                    
+                ], 'attr' => ['class' => 'form-select']
+            ])
             ->add('clave')
-            ->add('estado')
-        ;
+            ->add('estado');
     }
-
-    public function configureOptions(OptionsResolver $resolver): void
+ function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Usuario::class,

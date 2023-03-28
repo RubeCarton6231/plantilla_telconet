@@ -9,11 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[Route('/usuario')]
 class UsuarioController extends AbstractController
 {
-    #[Route('/', name: 'app_usuario', methods: ['GET'])]
+    #[Route('/', name: 'app_usuario_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $usuarios = $entityManager
@@ -26,13 +26,20 @@ class UsuarioController extends AbstractController
     }
 
     #[Route('/new', name: 'app_usuario_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $usuario = new Usuario();
         $form = $this->createForm(UsuarioType::class, $usuario);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {            
+            $usuario->setRoles([$form->get('roles')->getData()]);
+            $usuario->setClave(
+                $userPasswordHasher->hashPassword(
+                    $usuario,
+                    $form->get('clave')->getData()
+                )
+            );
             $entityManager->persist($usuario);
             $entityManager->flush();
 

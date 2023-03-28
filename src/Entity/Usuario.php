@@ -17,12 +17,12 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id_usuario", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="usuario_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="usuario_id_usuario_seq", allocationSize=1, initialValue=1)
      */
-    private $id;
+    private $idUsuario;
 
     /**
      * @var string
@@ -39,11 +39,25 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private $nombre;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="apellido", type="string", length=255, nullable=false)
+     */
+    private $apellido;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cedula", type="string", length=10, nullable=false)
+     */
+    private $cedula;
+
+    /**
      * @var array|null
      *
-     * @ORM\Column(name="rol", type="json", nullable=true)
+     * @ORM\Column(name="roles", type="json", nullable=true)
      */
-    private $rol;
+    private $roles;
 
     /**
      * @var string
@@ -59,9 +73,9 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $estado = 'A';
 
-    public function getId(): ?int
+    public function getIdUsuario(): ?int
     {
-        return $this->id;
+        return $this->idUsuario;
     }
 
     public function getEmail(): ?string
@@ -88,14 +102,34 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRol(): array
+    public function getApellido(): ?string
     {
-        return $this->rol;
+        return $this->apellido;
     }
 
-    public function setRol(?array $rol): self
+    public function setApellido(string $apellido): self
     {
-        $this->rol = $rol;
+        $this->apellido = $apellido;
+
+        return $this;
+    }
+
+    public function getCedula(): ?string
+    {
+        return $this->cedula;
+    }
+
+    public function setCedula(string $cedula): self
+    {
+        $this->cedula = $cedula;
+
+        return $this;
+    }
+ 
+
+    public function setRoles(?array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
@@ -124,7 +158,8 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
+    
+     /**
      * A visual identifier that represents this user.
      *
      * @see UserInterface
@@ -145,15 +180,15 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $rol = $this->rol;
-        if (empty($rol)) {
-            $rol = ['ROLE_RESIDENTE'];
+        $roles = $this->roles;
+        if (empty($roles)) {
+            $roles = ['ROLE_CLIENTE'];
         } else {
-            foreach ($this->rol as $role) {
-                $rol[] = $role;
+            foreach ($this->roles as $role) {
+                $roles[] = $role;
             }
         }
-        return array_unique($rol);
+        return array_unique($roles);
     }
     /**
      * @see UserInterface
@@ -162,6 +197,11 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function __toString()
+    {
+        return sprintf($this->nombre." ".$this->apellido);
     }
 
 }

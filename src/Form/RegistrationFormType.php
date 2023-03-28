@@ -20,6 +20,8 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email')
             ->add('nombre')
+            ->add('apellido')
+            ->add('cedula')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -28,7 +30,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('rol', ChoiceType::class, [
+            ->add('roles', ChoiceType::class, [
                 'mapped' => false,
                 'choices' => [
                     'Residente' => 'ROLE_RESIDENTE',

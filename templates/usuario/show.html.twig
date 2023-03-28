@@ -9,7 +9,7 @@
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.idUsuario }}</td>
             </tr>
             <tr>
                 <th>Email</th>
@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <th>Rol</th>
-                <td>{{ usuario.rol ? usuario.rol|json_encode : '' }}</td>
+                <td>{{ usuario.roles ? usuario.roles|json_encode : '' }}</td>
             </tr>
             <tr>
                 <th>Clave</th>
@@ -36,7 +36,7 @@
 
     <a href="{{ path('app_usuario_index') }}">back to list</a>
 
-    <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}">edit</a>
+    <a href="{{ path('app_usuario_edit', {'id': usuario.idUsuario}) }}">edit</a>
 
     {{ include('usuario/_delete_form.html.twig') }}
 {% endblock %}
